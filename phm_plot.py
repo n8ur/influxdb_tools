@@ -1,6 +1,6 @@
 #! /usr/bin/env -S python3      # took away -u to see if it helps
 
-# phm_plot.py v.20230113.1
+# phm_plot.py v.20230123.1
 # copyright 2023 John Ackermann N8UR jra@febo.com
 #
 # This program is free software; you can redistribute it and/or modify
@@ -149,11 +149,15 @@ fig.subplots_adjust(b_left,b_bottom,b_right,b_top,horiz_space)
 fig.suptitle(suptitle,size='xx-large',weight='bold',x=0.5,y=0.98)
 
 # Line showing date range at bottom
-fig.text(0.5,0.0225,subtitle,horizontalalignment='center',
+fig.text(0.5,0.029,subtitle,horizontalalignment='center',
     size='large',weight='bold')
+
+# Put input file name at bottom left
+fig.text(0.015,0.011,"Input File: " + os.path.basename(sys.argv[1]),
+    horizontalalignment='left',size='medium')
 # Put date/time plotted at bottom right
 now = "Created: " + datetime.utcnow().isoformat(timespec='seconds') + " UTC"
-fig.text(0.9,0.01,now,horizontalalignment='right',
+fig.text(0.92,0.011,now,horizontalalignment='right',
     size='medium')
 
 for i, ax in enumerate(axes.flat):
@@ -199,8 +203,12 @@ for i, ax in enumerate(axes.flat):
         axb.plot(x, t[subs[i][5]],color='green',zorder=10)
 
 # put x axis ticks at bottom of each column
+locator = mdates.AutoDateLocator(minticks = 3, maxticks=7)
+formatter = mdates.ConciseDateFormatter(locator)
 for x in range(num_cols):
-    axes[num_rows - 1,x].xaxis.set_major_formatter(mdates.DateFormatter('%d-%b'))
+    axes[num_rows - 1,x].xaxis.set_major_locator(locator)
+    axes[num_rows - 1,x].xaxis.set_major_formatter(formatter)
+#    axes[num_rows - 1,x].xaxis.set_major_formatter(mdates.DateFormatter('%d-%b'))
 
 if make_png == True:
     pngout = os.path.basename(sys.argv[1]) + '.png'
