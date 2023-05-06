@@ -1,22 +1,14 @@
-# maser_funcs.py v.20230110.1
-# copyright 2023 John Ackermann N8UR jra@febo.com
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# These are functions that parse the messages from the VCH-1008
-# maser queries
-
 
 # Note: these functions do not return the measure_name or
-# location.  They are prepended in the calling function
+# location.  These are prepended in the calling function
+#
+# update 06May2023: Ole Peter Ronningen found two undocumented
+# fields in the kvd return (h_press and dis_volts) so those have
+# been added here
+#
+# also correct typo from "cav_base_mistmatch" to
+# "cav_base_mismatch"
+
 def rss_func(t, fields):
     msg = \
             " 5MHz_#1_level=" + str(fields[0]) + \
@@ -47,8 +39,10 @@ def kvd_func(t, fields):
             ",ion_current=" + str(fields[1]) + \
             ",pur_volts=" + str(fields[2]) + \
             ",pur_current=" + str(fields[3]) + \
-            ",hfo_volts=" + str(fields[4]) + \
+            ",h_press=" + str(fields[4]) + \
             ",hfo_current=" + str(fields[5]) + \
+            ",hfo_volts=" + str(fields[6]) + \
+            ",dis_volts=" + str(fields[7]) + \
             " " + t + \
             "\n"
     return msg
@@ -70,7 +64,7 @@ def thr_func(t, fields):
     msg = \
             " cav_side_mismatch=" + str(fields[0]) + \
             ",cav_side_pwr=" + str(fields[1]) + \
-            ",cav_base_mistmatch=" + str(fields[2]) + \
+            ",cav_base_mismatch=" + str(fields[2]) + \
             ",cav_base_pwr=" + str(fields[3]) + \
             ",h_src_mismatch=" + str(fields[4]) + \
             ",h_src_pwr=" + str(fields[5]) + \
