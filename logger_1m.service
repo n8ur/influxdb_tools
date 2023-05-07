@@ -1,0 +1,13 @@
+[Unit]
+Description=Runs shell script each minute to gather logging data
+Wants=logger_1m.timer
+
+[Service]
+Type=oneshot
+User=jra
+ExecStart=/bin/bash /usr/local/bin/logger_1m.sh
+
+[Install]
+WantedBy=multi-user.target
+
+

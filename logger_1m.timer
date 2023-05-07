@@ -1,0 +1,12 @@
+[Unit]
+Description=Run clockroom logger every minute
+Requires=logger_1m.service
+
+[Timer]
+Unit=logger_1m.service
+OnCalendar=*:0/1
+AccuracySec=1s
+Persistent=true
+
+[Install]
+WantedBy=timers.target
